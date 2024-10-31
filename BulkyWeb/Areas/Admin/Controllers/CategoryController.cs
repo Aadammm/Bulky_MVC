@@ -32,7 +32,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)//kontroluje obj ma validne metadata
             {
-                _unitOfWork.Category.Add(obj); 
+                _unitOfWork.Category.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index"); //vrati sa na parameter Index  
