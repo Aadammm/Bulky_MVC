@@ -16,13 +16,24 @@
     <div class="card-body p-4">
         <div class="row pt-4">
             <div class="col-md-12">
-                <form id="registerForm"class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <h3 class="border-bottom pb-3 mb-4 text-secondary text-center">Create a new account.</h3>
-                                      <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-3 col-md-12">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         <label asp-for="Input.Email" class="ms-2 text-muted">Email</label>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                  
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.Name" class="form-control" placeholder="name@example.com" />
+                        <label asp-for="Input.Name" class="ms-2 text-muted">Full Name</label>
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.StreetAddress" class="form-control" placeholder="name@example.com" />
+                        <label asp-for="Input.StreetAddress" class="ms-2 text-muted">Street</label>
+                        <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3 col-md-6">
                         <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
@@ -35,16 +46,6 @@
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.Name" class="form-control" placeholder="name@example.com" />
-                        <label asp-for="Input.Name" class="ms-2 text-muted">Full Name</label>
-                        <span asp-validation-for="Input.Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.StreetAddress" class="form-control" placeholder="name@example.com" />
-                        <label asp-for="Input.StreetAddress" class="ms-2 text-muted">Street</label>
-                        <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3 col-md-6">
                         <input asp-for="Input.City" class="form-control" placeholder="name@example.com" />
                         <label asp-for="Input.City" class="ms-2 text-muted">City</label>
                         <span asp-validation-for="Input.City" class="text-danger"></span>
@@ -54,7 +55,7 @@
                         <label asp-for="Input.State" class="ms-2 text-muted">State</label>
                         <span asp-validation-for="Input.State" class="text-danger"></span>
                     </div>
-                        <div class="form-floating mb-3 col-md-6">
+                    <div class="form-floating mb-3 col-md-6">
                         <input asp-for="Input.PostalCode" class="form-control" placeholder="name@example.com" />
                         <label asp-for="Input.PostalCode" class="ms-2 text-muted">ZIP</label>
                         <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
@@ -66,11 +67,16 @@
                     </div>
                     <div class="form-floating mb-3 col-md-6">
                         <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                            <option disabled selected >-Select Role-</option>
+                            <option disabled selected>-Select Role-</option>
+                        </select>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <select asp-for="Input.CompanyId" style="display:none;" asp-items="@Model.Input.CompanyList" class="form-select">
+                            <option disabled selected>-Select Company-</option>
                         </select>
                     </div>
                     <div class="col-12">
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                     </div>
 
                 </form>
@@ -114,4 +120,17 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#Input_Role').change(function () {
+                var selection = $('#Input_Role Option:Selected').text();
+                if (selection == 'Company') {
+                    $('#Input_CompanyId').show();
+                }
+                else {
+                    $('#Input_CompanyId').hide();
+                }
+            })
+        })
+    </script>
 }
