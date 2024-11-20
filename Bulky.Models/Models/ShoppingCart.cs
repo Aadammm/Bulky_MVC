@@ -12,7 +12,7 @@ namespace BulkyBook.Models.Models
 {
     public class ShoppingCart
     {
-      //  [BindNever]
+        [BindNever]
         public int Id { get; set; } 
         public int ProductId { get; set; }
 
