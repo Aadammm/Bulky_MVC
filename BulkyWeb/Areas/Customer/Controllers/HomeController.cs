@@ -8,6 +8,7 @@ using System.Security.Claims;
 namespace BulkyBookWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]  
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,7 +21,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll( includeProperties: "Category");
             return View(productList);
         }
         public IActionResult Details(int id)//id ziskame pouzitim asp-route-id="@product.Id"
@@ -36,8 +37,8 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         [HttpPost]
         [Authorize]
         public IActionResult Details(ShoppingCart cart)
-        {
-            ClaimsIdentity? claimsIdentity = (ClaimsIdentity)User.Identity; //ziskanie id usera
+         {
+            ClaimsIdentity? claimsIdentity = (ClaimsIdentity)User.Identity; //ziskanie id usera 
             string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             cart.ApplicationUserId = userId;
 
@@ -46,13 +47,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             if (cartFromDb is not null)
             {
                 cartFromDb.Count += cart.Count;
-                _unitOfWork.ShoppingCart.Update(cart);
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
             }
             else
             {
                 _unitOfWork.ShoppingCart.Add(cart);
 
             }
+            TempData["success"] = "Cart updated successfully";
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
