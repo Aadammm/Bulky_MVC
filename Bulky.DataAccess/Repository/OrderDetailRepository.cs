@@ -4,17 +4,17 @@ using BulkyBook.Models.Models;
 
 namespace BulkyBook.DataAccess.Repository
 {
-    public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderRepository
+    public class OrderDetailRepository : Repository<OrderDetail>, IOrderDetailRepository
     {
         private readonly ApplicationDbContext _db;
-        public OrderHeaderRepository(ApplicationDbContext db) : base(db)
+        public OrderDetailRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(OrderHeader orderHeader)
+        public void Update(OrderDetail obj)
         {
-            _db.OrderHeaders.Update(orderHeader);
+            _db.OrderDetails.Update(obj);
         }
     }
 }
