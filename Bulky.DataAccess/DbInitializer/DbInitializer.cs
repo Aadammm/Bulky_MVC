@@ -34,7 +34,9 @@ namespace BulkyBook.DataAccess.DbInitializer
                     _db.Database.Migrate();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
 
             //if roles are not created, then we will create admin user as well
             if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
@@ -43,8 +45,8 @@ namespace BulkyBook.DataAccess.DbInitializer
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                
-                _userManager.CreateAsync(new ApplicationUser
+
+                _userManager.CreateAsync(new ApplicationUser //admin
                 {
                     UserName = "admin@admint.com",
                     Email = "admin@admint.com",
@@ -59,7 +61,6 @@ namespace BulkyBook.DataAccess.DbInitializer
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@admint.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
-            return;
         }
     }
 }
